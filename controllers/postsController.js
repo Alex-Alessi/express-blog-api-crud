@@ -27,9 +27,9 @@ function show(req, res) {
   let post = postsData.find((post) => post.id === id);
 
   if (!post) {
-    return res.status(404).json({
-      error: "Not found",
-    });
+    const err = new Error("Id pizza not found");
+    err.code = 404;
+    throw err;
   }
 
   post = { ...post, img: post.img };
@@ -43,7 +43,9 @@ function store(req, res) {
   const id = postsData.at(-1).id + 1;
 
   if (!titolo || !contenuto || !img || !Array.isArray(tags) || !tags.length) {
-    return res.status(400).json({ error: "Invalid params" });
+    const err = new Error("Invalid params");
+    err.code = 400;
+    throw err;
   }
 
   const newPost = {
@@ -67,16 +69,18 @@ function update(req, res) {
   let post = postsData.find((post) => post.id === id);
 
   if (!post) {
-    return res.status(404).json({
-      error: "Not found",
-    });
+    const err = new Error("Id pizza not found");
+    err.code = 404;
+    throw err;
   }
 
   // ottengo i parametri
   const { titolo, contenuto, img, tags } = req.body;
 
   if (!titolo || !contenuto || !img || !Array.isArray(tags) || !tags.length) {
-    return res.status(400).json({ error: "Invalid params" });
+    const err = new Error("Invalid params");
+    err.code = 400;
+    throw err;
   }
 
   post.titolo = titolo;
@@ -95,9 +99,9 @@ function modify(req, res) {
   let post = postsData.find((post) => post.id === id);
 
   if (!post) {
-    return res.status(404).json({
-      error: "Not found",
-    });
+    const err = new Error("Id pizza not found");
+    err.code = 404;
+    throw err;
   }
 
   // ottengo i parametri
@@ -129,9 +133,9 @@ function destroy(req, res) {
   const post = postsData.find((post) => post.id === id);
 
   if (!post) {
-    return res.status(404).json({
-      error: "Not found",
-    });
+    const err = new Error("Id pizza not found");
+    err.code = 404;
+    throw err;
   }
 
   const postIndex = postsData.indexOf(post);
